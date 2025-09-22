@@ -1,0 +1,27 @@
+<main class="stage">
+    <section class="panel">
+
+        <!-- Cabecera -->
+        <header class="hero">
+            <img class="avatar" src="../../assets/img/AvatarNiña.png" alt="Avatar del niño">
+            <div>
+                <h1 class="hello">¡Hola Explorador!</h1>
+                <p class="subtitle">Avanza paso a paso en tu misión 🚀</p>
+            </div>
+            <div class="stars-box">
+                ⭐ <span id="totalStars">0</span>
+            </div>
+        </header>
+
+        <!-- Módulos -->
+        <div id="modulesList" class="modules">
+            <article *ngFor="let m of modules" class="module-card">
+                <img [src]="m.cover" [alt]="m.title" class="cover" />
+                <h3 class="title">{{ m.title }}</h3>
+                <p class="stars">{{ getStarsDisplay(m.stars) }}</p>
+                <a [href]="m.href" class="btn">{{ getButtonLabel(m.stars) }}</a>
+            </article>
+        </div>
+
+    </section>
+</main>

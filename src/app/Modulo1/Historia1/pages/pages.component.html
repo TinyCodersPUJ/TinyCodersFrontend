@@ -1,0 +1,52 @@
+<main class="stage">
+    <section class="panel">
+        <figure class="comic">
+            <img class="scene" [src]="imgSrc" alt="Escena">
+
+            <!-- Página 1: solo botón "Empezar" -->
+            <ng-container *ngIf="page === 1">
+                <a class="btn-empezar" [routerLink]="nextLink">
+                    <img src="../../../../assets/img/empezar.png" alt="Empezar" />
+                </a>
+            </ng-container>
+
+            <!-- Página 8: solo botón "Finalizar" -->
+            <ng-container *ngIf="page === 8">
+                <a class="btn-final" [routerLink]="endLink" aria-label="Finalizar">
+                    <img src="../../../../assets/img/finalizar.png" alt="Finalizar" />
+                </a>
+            </ng-container>
+
+            <!-- Página 5: solo botón "Programar" -->
+            <ng-container *ngIf="page === 5">
+
+                <ng-template #btnVolver>
+                    <a class="btn-scratch" href="http://localhost:8601"
+                        aria-label="Ir a Scratch" (click)="abrirScratch($event)">
+                        <img src="../../../assets/img/empezar.png" alt="Oprime">
+                    </a>
+                </ng-template>
+
+                <div *ngIf="esMini; else btnVolver" class="btn-scratch">
+                    <a class="btn-scratch" aria-label="Volver de Scratch" (click)="terminarYVolver()">
+                        <img src="../../../assets/img/atrás.png" alt="Oprime">
+                    </a>
+                </div>
+
+            </ng-container>
+
+
+            <!-- Páginas 2 a 7: botón "Atrás" y "Siguiente" -->
+            <ng-container *ngIf="page > 1 && page < 8">
+                <a class="btn-atras" [routerLink]="prevLink" aria-label="Atrás">
+                    <img src="../../../../assets/img/atrás.png" alt="Atrás" />
+                </a>
+
+                <a class="btn-img" [routerLink]="nextLink" aria-label="Siguiente">
+                    <img src="../../../../assets/img/siguiente.png" alt="Siguiente" />
+                </a>
+            </ng-container>
+
+        </figure>
+    </section>
+</main>

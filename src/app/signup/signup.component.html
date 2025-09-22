@@ -1,0 +1,33 @@
+<main class="sky">
+    <section class="card">
+        <h1>Crear Cuenta</h1>
+
+        <form class="form" action="#" method="post" novalidate>
+            <!-- Nombre -->
+            <div class="field">
+                <label for="name"><span>Nombre</span></label>
+                <input id="name" type="text" name="name" placeholder="Tu nombre" required>
+            </div>
+
+            <!-- Email -->
+            <div class="field">
+                <label for="email"><span>Email</span></label>
+                <input id="email" type="email" name="email" placeholder="example.email@gmail.com" required>
+            </div>
+
+            <!-- Password (el div ya no va dentro del label) -->
+            <div class="field">
+                <label for="password"><span>Contraseña</span></label>
+                <div class="pw">
+                    <input id="password" type="password" name="password" placeholder="Mínimo 8 caracteres" minlength="8"
+                        required>
+                    <span class="pw-eye" aria-hidden="true"></span>
+                </div>
+            </div>
+
+            <button class="btn btn--ghost" type="submit" formmethod="get" formaction="registro.html">
+                Crear
+            </button>
+        </form>
+    </section>
+</main>

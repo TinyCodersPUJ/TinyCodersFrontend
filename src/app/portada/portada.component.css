@@ -1,0 +1,126 @@
+:root {
+    --bg: #cfeeff;
+    --panel: #e8f6ff;
+    --border: #8ad0ff;
+    --ink: #16324f;
+    --btn-green: #8de894;
+    --btn-yellow: #ffe680;
+    --btn-ink: #114b35;
+    --shadow: 0 10px 30px rgba(0, 0, 0, .10);
+    --radius-xl: 22px;
+    --radius-pill: 999px;
+    --maxw: 1080px;
+}
+
+.sky::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url("../../assets/img/nubes_portada.png") center/cover no-repeat;
+    z-index: -2;
+    filter: saturate(1.1);
+}
+
+.wrap {
+    width: 100%;
+    max-width: var(--maxw);
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+    gap: clamp(16px, 2.2vw, 26px);
+}
+
+/* Título */
+.hero-title {
+    margin-inline: auto;
+    width: min(100%, 920px);
+    background: var(--panel);
+    border: 3px solid var(--border);
+    border-radius: var(--radius-xl);
+    padding: clamp(12px, 2.2vw, 22px) clamp(16px, 3vw, 32px);
+    box-shadow: var(--shadow);
+    text-align: center;
+}
+
+.hero-title h1 {
+    margin: 0;
+    font-size: clamp(22px, 4vw, 42px);
+    line-height: 1.1;
+    letter-spacing: .4px;
+    font-weight: 700;
+}
+
+/* Botones */
+.actions {
+    display: flex;
+    gap: clamp(12px, 2.2vw, 24px);
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn {
+    --bg: #ddd;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    border-radius: var(--radius-pill);
+    background: var(--bg);
+    border: 0;
+    box-shadow: var(--shadow);
+    color: var(--btn-ink);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: clamp(16px, 1.8vw, 20px);
+    transform: translateY(0);
+    transition: transform .12s ease, box-shadow .12s ease, filter .12s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    filter: saturate(1.05);
+}
+
+.btn:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, .12);
+}
+
+.btn--install {
+    --bg: var(--btn-yellow);
+}
+
+.btn--start {
+    --bg: var(--btn-green);
+}
+
+/* Ilustración */
+.scene {
+    position: relative;
+    display: grid;
+    place-items: end center;
+    min-height: clamp(260px, 40vh, 480px);
+}
+
+.scene img.characters {
+    width: min(780px, 86%);
+    height: auto;
+    object-fit: contain;
+    filter: saturate(1.05);
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+/* Responsive */
+@media (max-width:640px) {
+    .hero-title {
+        border-width: 2px;
+    }
+
+    .btn {
+        padding: 12px 22px;
+    }
+
+    .scene {
+        min-height: 300px;
+    }
+}

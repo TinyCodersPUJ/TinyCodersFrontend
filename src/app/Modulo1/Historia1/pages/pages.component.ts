@@ -19,12 +19,16 @@ export class PagesComponent implements OnInit {
   esMini = false;
 
 
+  // guarda un bound para poder remover el listener si quieres en ngOnDestroy
+  private resizeHandler = () => this.scaleMiniToFit();
+
+  
   ngOnInit() {
     this.route.paramMap.subscribe(p => {
       this.page = Number(p.get('page') || 1);
 
       // Construyes la ruta de la imagen 
-      this.imgSrc = `../../../../assets/img/Modulo1/M1H1P${this.page}.png`;
+      this.imgSrc = `assets/img/Modulo1/M1H1P${this.page}.png`;
 
       // Anterior / Siguiente (saltando la 5, que tiene su componente)
       const prev = Math.max(1, this.page - 1);
@@ -42,6 +46,10 @@ export class PagesComponent implements OnInit {
     if (this.esMini) {
       document.body.classList.add('mini');
 
+      // Re-escala al cambiar el tamaño de la ventana
+      setTimeout(() => this.scaleMiniToFit(), 0);
+      window.addEventListener('resize', this.resizeHandler);
+
       const handler = () => {
         const returnTo = localStorage.getItem('returnTo') || '/';
         try {
@@ -50,12 +58,27 @@ export class PagesComponent implements OnInit {
             window.opener.focus();
           }
         } catch { }
-        // (no llames window.close() aquí; se está cerrando ya)
       };
-
+      
+      
       // se dispara si el usuario cierra con la X o navega fuera
       window.addEventListener('beforeunload', handler);
       window.addEventListener('pagehide', handler); // iOS/Safari
+    } else {
+      // Asegura que fuera de mini NO quede nada aplicado
+      document.body.classList.remove('mini');
+      window.removeEventListener('resize', this.resizeHandler);
+
+      // Limpia transform si venías de mini y regresaste
+      const root = document.getElementById('mini-root');
+      if (root) {
+        root.style.transform = '';
+        root.style.left = '';
+        root.style.top = '';
+        root.style.width = '';
+        root.style.height = '';
+        root.style.position = '';
+      }
     }
 
   }
@@ -126,6 +149,31 @@ export class PagesComponent implements OnInit {
       alert('Activa las ventanas emergentes para ver la ventana flotante.');
     }
   }
+
+  // Llama esto SOLO cuando es mini (ya detectas mini en ngOnInit)
+  private scaleMiniToFit() {
+    const root = document.getElementById('mini-root');
+    if (!root) return;
+
+    // Tamaño "diseño original" de escena
+    const DESIGN_W = 690;
+    const DESIGN_H = 500;
+
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+
+    const scale = Math.min(vw / DESIGN_W, vh / DESIGN_H);
+
+    root.style.width = `${DESIGN_W}px`;
+    root.style.height = `${DESIGN_H}px`;
+    root.style.transform = `scale(${scale})`;
+
+    // centrar
+    root.style.position = 'absolute';
+    root.style.left = Math.max(0, (vw - DESIGN_W * scale) / 2) + 'px';
+    root.style.top = Math.max(0, (vh - DESIGN_H * scale) / 2) + 'px';
+  }
+
 
   private construirMiniUrl(): string {
     const url = new URL(window.location.href);

@@ -5,6 +5,8 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build_prod": "ng build --configuration production --base-href=/TinyCodersFrontend/",
+    "deploy": "npx angular-cli-ghpages --repo=https://github.com/TinyCodersPUJ/TinyCodersFrontend.git --dir=dist/front",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },

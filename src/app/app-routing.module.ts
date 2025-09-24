@@ -12,7 +12,8 @@ import { PagesM4Component } from './Modulo4/pages-m4/pages-m4.component';
 import { PagesM5Component } from './Modulo5/pages-m5/pages-m5.component';
 
 const routes: Routes = [
-  { path: '', component: PortadaComponent },
+  { path: '', redirectTo: 'portada', pathMatch: 'full' },
+
   { path: 'bienvenida', component: BienvenidaComponent },
   { path: 'login', component: LoginComponent },
   { path: 'principal', component: PrincipalComponent },
@@ -22,7 +23,9 @@ const routes: Routes = [
   { path: 'Modulo2/:page', component: PagesM2Component },
   { path: 'Modulo3/:page', component: PagesM3Component },
   { path: 'Modulo4/:page', component: PagesM4Component },
-  { path: 'Modulo5/:page', component: PagesM5Component }
+  { path: 'Modulo5/:page', component: PagesM5Component },
+  
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({

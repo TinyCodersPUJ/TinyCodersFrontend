@@ -159,13 +159,6 @@ main {
     transform: scale(1.08);
 }
 
-body.mini {
-    transform: scale(0.85);
-    transform-origin: top left;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-}
 
 /* Botón siguiente (derecha abajo) */
 .btn-img {

@@ -1,33 +1,90 @@
 <main class="sky">
-    <section class="card">
-        <h1>Crear Cuenta</h1>
+  <section class="card">
+    <h1>Crear Cuenta</h1>
 
-        <form class="form" action="#" method="post" novalidate>
-            <!-- Nombre -->
-            <div class="field">
-                <label for="name"><span>Nombre</span></label>
-                <input id="name" type="text" name="name" placeholder="Tu nombre" required>
-            </div>
+    <form
+      class="form"
+      action="#"
+      method="post"
+      novalidate
+      [formGroup]="registerForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <!-- Nombre
+      <div class="field">
+        <label for="name"><span>Nombre</span></label>
+        <input
+          id="name"
+          type="text"
+          name="name"
+          placeholder="Tu nombre"
+          required
+          formControlName="name"
+        />
+        <i
+          style="color: tomato"
+          *ngIf="
+            registerForm.get('name')?.touched &&
+            registerForm.get('name')?.invalid
+          "
+          >* Obligatorio</i
+        >
+      </div> -->
 
-            <!-- Email -->
-            <div class="field">
-                <label for="email"><span>Email</span></label>
-                <input id="email" type="email" name="email" placeholder="example.email@gmail.com" required>
-            </div>
+      <!-- Email -->
+      <div class="field">
+        <label for="email"><span>Email</span></label>
+        <input
+          id="email"
+          type="email"
+          name="email"
+          placeholder="Holaaaaaaaaaaa"
+          required
+          formControlName="email"
+        />
+        <i
+          style="color: tomato"
+          *ngIf="
+            registerForm.get('email')?.touched &&
+            registerForm.get('email')?.invalid
+          "
+          >* Introduce un email válido</i
+        >
+      </div>
 
-            <!-- Password (el div ya no va dentro del label) -->
-            <div class="field">
-                <label for="password"><span>Contraseña</span></label>
-                <div class="pw">
-                    <input id="password" type="password" name="password" placeholder="Mínimo 8 caracteres" minlength="8"
-                        required>
-                    <span class="pw-eye" aria-hidden="true"></span>
-                </div>
-            </div>
+      <!-- Password (el div ya no va dentro del label) -->
+      <div class="field">
+        <label for="password"><span>Contraseña</span></label>
+        <div class="pw">
+          <input
+            id="password"
+            type="password"
+            name="password"
+            placeholder="JAJAJAJAJAJJAJAJ"
+            minlength="8"
+            required
+            formControlName="password"
+          />
+          <i
+            style="color: tomato"
+            *ngIf="
+              registerForm.get('password')?.touched &&
+              registerForm.get('password')?.invalid
+            "
+            >* Mínimo 8 caracteres</i
+          >
+          <span class="pw-eye" aria-hidden="true"></span>
+        </div>
+      </div>
 
-            <button class="btn btn--ghost" type="submit" formmethod="get" formaction="registro.html">
-                Crear
-            </button>
-        </form>
-    </section>
+      <button
+        class="btn btn--ghost"
+        type="submit"
+        formmethod="get"
+        formaction="registro.html"
+      >
+        Crear
+      </button>
+    </form>
+  </section>
 </main>

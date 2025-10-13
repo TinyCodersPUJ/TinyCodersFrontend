@@ -1,53 +1,83 @@
 <main class="sky">
-    <section class="card">
-        <h1>Iniciar Sesión</h1>
+  <section class="card">
+    <h1>Iniciar Sesión</h1>
 
-        <form (ngSubmit)="onSubmit()">
-            <!-- Email -->
-            <div class="field">
-                <label for="email"><span>Email</span></label>
-                <input id="email" type="email" name="email" placeholder="example.email@gmail.com" required>
-            </div>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <!-- Email -->
+      <div class="field">
+        <label for="email"><span>Email</span></label>
+        <input
+          id="email"
+          type="email"
+          name="email"
+          placeholder="example.email@gmail.com"
+          required
+          formControlName="email"
+        />
+      </div>
 
-            <!-- Password (el div ya no va dentro del label) -->
-            <div class="field">
-                <label for="password"><span>Contraseña</span></label>
-                <div class="pw">
-                    <input id="password" type="password" name="password" placeholder="Mínimo 8 caracteres" minlength="8"
-                        required>
-                    <span class="pw-eye" aria-hidden="true"></span>
-                </div>
-            </div>
-
-            <!-- Recordarme / Olvidé contraseña -->
-            <div class="row">
-                <label class="check">
-                    <input type="checkbox" name="remember"> Recordarme
-                </label>
-                <a class="link" href="#">¿Olvidaste la contraseña?</a>
-            </div>
-
-            <!-- Botones -->
-            <button class="btn btn--primary" type="submit" id="loginBtn" formmethod="get" [routerLink]="['/principal']">
-                Iniciar Sesión
-            </button>
-
-            <!-- Botón de navegación sin warnings: usa formaction GET -->
-            <button class="btn btn--ghost" type="submit" formmethod="get" formaction="/signup">
-                Crear Cuenta
-            </button>
-
-        </form>
-
-        <!-- Mensaje de éxito -->
-        <div *ngIf="successMessage" class="alert alert-success" style="margin-top: 20px;">
-            {{ successMessage }}
+      <!-- Password (el div ya no va dentro del label) -->
+      <div class="field">
+        <label for="password"><span>Contraseña</span></label>
+        <div class="pw">
+          <input
+            id="password"
+            type="password"
+            name="password"
+            placeholder="Mínimo 8 caracteres"
+            minlength="8"
+            required
+            formControlName="password"
+          />
+          <span class="pw-eye" aria-hidden="true"></span>
         </div>
+      </div>
 
-        <!-- Mensaje de error con clase CSS -->
-        <div *ngIf="errorMessage" class="alert alert-danger" style="margin-top: 20px;">
-            {{ errorMessage }}
-        </div>
+      <!-- Recordarme / Olvidé contraseña -->
+      <div class="row">
+        <label class="check">
+          <input type="checkbox" name="remember" /> Recordarme
+        </label>
+        <a class="link" href="#">¿Olvidaste la contraseña?</a>
+      </div>
 
-    </section>
+      <!-- Botones -->
+      <button
+        class="btn btn--primary"
+        type="submit"
+        id="loginBtn"
+        formmethod="get"
+      >
+        Iniciar Sesión
+      </button>
+
+      <!-- Botón de navegación sin warnings: usa formaction GET -->
+      <button
+        class="btn btn--ghost"
+        type="submit"
+        formmethod="get"
+        (click)="navigateToSignUp($event)"
+      >
+        Crear Cuenta
+      </button>
+    </form>
+
+    <!-- Mensaje de éxito -->
+    <div
+      *ngIf="successMessage"
+      class="alert alert-success"
+      style="margin-top: 20px"
+    >
+      {{ successMessage }}
+    </div>
+
+    <!-- Mensaje de error con clase CSS -->
+    <div
+      *ngIf="errorMessage"
+      class="alert alert-danger"
+      style="margin-top: 20px"
+    >
+      {{ errorMessage }}
+    </div>
+  </section>
 </main>

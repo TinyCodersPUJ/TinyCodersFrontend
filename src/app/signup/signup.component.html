@@ -2,6 +2,31 @@
   <section class="card">
     <h1>Crear Cuenta</h1>
 
+    <!-- Success Alert -->
+    <div
+      *ngIf="showSuccessAlert"
+      class="alert alert-success"
+      style="margin-bottom: 20px; text-align: center"
+    >
+      <h3>¡Usuario Creado Exitosamente!</h3>
+      <p>Tu cuenta ha sido creada correctamente.</p>
+      <button
+        class="btn btn--primary"
+        type="button"
+        (click)="navigateToLogin()"
+        style="margin-top: 10px"
+      >
+        Continuar
+      </button>
+    </div>
+    <!-- Error Alert -->
+    <div
+      *ngIf="errorMessage"
+      class="alert alert-danger"
+      style="margin-bottom: 20px"
+    >
+      {{ errorMessage }}
+    </div>
     <form
       class="form"
       action="#"

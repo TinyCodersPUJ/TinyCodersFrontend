@@ -36,10 +36,12 @@ export class LoginComponent {
   onSubmit() {
     // console.log('Login: ' + document);
     this.auth
-      .signIn(this.loginForm.value.email, this.loginForm.value.passwordj)
+      .signIn(this.loginForm.value.email, this.loginForm.value.password)
       .then((response) => {
-        console.log('User logged in successfully:', response);
-        this.router.navigate([`/bienvenida`]); // Redirigir a la URL construida
+        if (response.data.user!.role === 'authenticated') {
+          console.log('User logged in successfully:', response);
+          this.router.navigate([`/principal`]); // Redirigir a la URL construida
+        }
       })
       .catch((error) => {
         console.error('Error logging in:', error);

@@ -13,26 +13,30 @@ import { PagesM2Component } from './Modulo2/pages-m2/pages-m2.component';
 import { PagesM3Component } from './Modulo3/pages-m3/pages-m3.component';
 import { PagesM4Component } from './Modulo4/pages-m4/pages-m4.component';
 import { PagesM5Component } from './Modulo5/pages-m5/pages-m5.component';
-
+import { HttpClientModule } from '@angular/common/http';
+import { PagesM6Component } from './Modulo6/pages-m6/pages-m6.component';
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
     BienvenidaComponent,
     PrincipalComponent,
     PortadaComponent,
-    SignupComponent,
+
     PagesComponent,
     PagesM2Component,
     PagesM3Component,
     PagesM4Component,
-    PagesM5Component
+    PagesM5Component,
+    PagesM6Component,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    HttpClientModule,
+    AppRoutingModule,
+    SignupComponent,
+    LoginComponent,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

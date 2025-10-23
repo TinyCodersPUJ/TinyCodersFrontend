@@ -22,7 +22,7 @@ export class PagesComponent implements OnInit {
   // guarda un bound para poder remover el listener si quieres en ngOnDestroy
   private resizeHandler = () => this.scaleMiniToFit();
 
-  
+
   ngOnInit() {
     this.route.paramMap.subscribe(p => {
       this.page = Number(p.get('page') || 1);
@@ -43,28 +43,28 @@ export class PagesComponent implements OnInit {
     const params = new URLSearchParams(window.location.search);
     this.esMini = params.get('mini') === '1';
 
-    if (this.esMini) {
-      document.body.classList.add('mini');
+    //if (this.esMini) {
+    document.body.classList.add('mini');
 
-      // Re-escala al cambiar el tamaño de la ventana
-      setTimeout(() => this.scaleMiniToFit(), 0);
-      window.addEventListener('resize', this.resizeHandler);
+    // Re-escala al cambiar el tamaño de la ventana
+    setTimeout(() => this.scaleMiniToFit(), 0);
+    window.addEventListener('resize', this.resizeHandler);
 
-      const handler = () => {
-        const returnTo = localStorage.getItem('returnTo') || '/';
-        try {
-          if (window.opener && !window.opener.closed) {
-            window.opener.location.href = returnTo; // vuelve a tu app
-            window.opener.focus();
-          }
-        } catch { }
-      };
-      
-      
-      // se dispara si el usuario cierra con la X o navega fuera
-      window.addEventListener('beforeunload', handler);
-      window.addEventListener('pagehide', handler); // iOS/Safari
-    } else {
+    const handler = () => {
+      const returnTo = localStorage.getItem('returnTo') || '/';
+      try {
+        if (window.opener && !window.opener.closed) {
+          window.opener.location.href = returnTo; // vuelve a tu app
+          window.opener.focus();
+        }
+      } catch { }
+    };
+
+
+    // se dispara si el usuario cierra con la X o navega fuera
+    window.addEventListener('beforeunload', handler);
+    window.addEventListener('pagehide', handler); // iOS/Safari
+    /*} else {
       // Asegura que fuera de mini NO quede nada aplicado
       document.body.classList.remove('mini');
       window.removeEventListener('resize', this.resizeHandler);
@@ -79,7 +79,7 @@ export class PagesComponent implements OnInit {
         root.style.height = '';
         root.style.position = '';
       }
-    }
+    }*/
 
   }
 
@@ -159,8 +159,11 @@ export class PagesComponent implements OnInit {
     const DESIGN_W = 690;
     const DESIGN_H = 500;
 
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
+    const marginW = window.innerWidth * 0.05; // 5 % horizontal
+    const marginH = window.innerHeight * 0.05; // 5 % vertical
+
+    const vw = window.innerWidth - marginW * 2;
+    const vh = window.innerHeight - marginH * 2;
 
     const scale = Math.min(vw / DESIGN_W, vh / DESIGN_H);
 
@@ -170,8 +173,8 @@ export class PagesComponent implements OnInit {
 
     // centrar
     root.style.position = 'absolute';
-    root.style.left = Math.max(0, (vw - DESIGN_W * scale) / 2) + 'px';
-    root.style.top = Math.max(0, (vh - DESIGN_H * scale) / 2) + 'px';
+    root.style.left = `${marginW + Math.max(0, (vw - DESIGN_W * scale) / 2)}px`;
+    root.style.top = `${marginH + Math.max(0, (vh - DESIGN_H * scale) / 2)}px`;
   }
 
 
@@ -195,6 +198,27 @@ export class PagesComponent implements OnInit {
       }
     } catch {
       window.location.href = returnTo;
+    }
+  }
+
+  finalizar() {
+    // Si endLink viene como '/principal', esto lo deja absoluto
+    const baseUrl = window.location.origin;
+    const destino = `${baseUrl}${this.endLink}`;
+
+    try {
+      if (window.opener && !window.opener.closed) {
+        // Redirige SIEMPRE la ventana principal al link de destino
+        window.opener.location.href = destino;
+        window.opener.focus();
+        window.close(); // Cierra el popup
+      } else {
+        // Si no hay ventana principal, redirige aquí mismo
+        window.location.href = destino;
+      }
+    } catch (err) {
+      console.error('Error al cerrar popup o redirigir:', err);
+      window.location.href = destino;
     }
   }
 

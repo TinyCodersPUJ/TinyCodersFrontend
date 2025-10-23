@@ -10,6 +10,7 @@ import { PagesM2Component } from './Modulo2/pages-m2/pages-m2.component';
 import { PagesM3Component } from './Modulo3/pages-m3/pages-m3.component';
 import { PagesM4Component } from './Modulo4/pages-m4/pages-m4.component';
 import { PagesM5Component } from './Modulo5/pages-m5/pages-m5.component';
+import { PagesM6Component } from './Modulo6/pages-m6/pages-m6.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'portada', pathMatch: 'full' },
@@ -24,7 +25,8 @@ const routes: Routes = [
   { path: 'Modulo3/:page', component: PagesM3Component },
   { path: 'Modulo4/:page', component: PagesM4Component },
   { path: 'Modulo5/:page', component: PagesM5Component },
-  
+  { path: 'Modulo6/:page', component: PagesM6Component },
+
   { path: '**', redirectTo: '' }
 ];
 

@@ -11,14 +11,14 @@
             </ng-container>
 
             <!-- Página 4: solo botón "Finalizar" -->
-            <ng-container *ngIf="page === 4">
+            <ng-container *ngIf="page === 7">
                 <a class="btn-final" [routerLink]="endLink" aria-label="Finalizar">
                     <img src="assets/img/finalizar.png" alt="Finalizar" />
                 </a>
             </ng-container>
 
             <!-- Página 3: solo botón "Programar" -->
-            <ng-container *ngIf="page === 3">
+            <ng-container *ngIf="page === 5">
 
                 <ng-template #btnVolver>
                     <a class="btn-scratch" href="http://localhost:8601"
@@ -37,7 +37,7 @@
 
 
             <!-- Páginas 2 a 5: botón "Atrás" y "Siguiente" -->
-            <ng-container *ngIf="page > 1 && page < 4">
+            <ng-container *ngIf="page > 1 && page < 7">
                 <a class="btn-atras" [routerLink]="prevLink" aria-label="Atrás">
                     <img src="assets/img/atrás.png" alt="Atrás" />
                 </a>

@@ -8,8 +8,8 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class PagesM5Component implements OnInit {
   page = 1;
-  lastPage = 4;
-  playPage = 3;
+  lastPage = 7;
+  playPage = 5;
 
   imgSrc = '';
   prevLink = '';
@@ -44,7 +44,7 @@ export class PagesM5Component implements OnInit {
     const params = new URLSearchParams(window.location.search);
     this.esMini = params.get('mini') === '1';
 
-    if (this.esMini) {
+    //if (this.esMini) {
       document.body.classList.add('mini');
 
       // Re-escala al cambiar el tamaño de la ventana
@@ -65,23 +65,7 @@ export class PagesM5Component implements OnInit {
       // se dispara si el usuario cierra con la X o navega fuera
       window.addEventListener('beforeunload', handler);
       window.addEventListener('pagehide', handler); // iOS/Safari
-    } else {
-      // Asegura que fuera de mini NO quede nada aplicado
-      document.body.classList.remove('mini');
-      window.removeEventListener('resize', this.resizeHandler);
-
-      // Limpia transform si venías de mini y regresaste
-      const root = document.getElementById('mini-root');
-      if (root) {
-        root.style.transform = '';
-        root.style.left = '';
-        root.style.top = '';
-        root.style.width = '';
-        root.style.height = '';
-        root.style.position = '';
-      }
-    }
-
+    
   }
 
   constructor(private route: ActivatedRoute) { }
@@ -183,8 +167,11 @@ export class PagesM5Component implements OnInit {
     const DESIGN_W = 690;
     const DESIGN_H = 500;
 
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
+    const marginW = window.innerWidth * 0.05; // 5 % horizontal
+    const marginH = window.innerHeight * 0.05; // 5 % vertical
+
+    const vw = window.innerWidth - marginW * 2;
+    const vh = window.innerHeight - marginH * 2;
 
     const scale = Math.min(vw / DESIGN_W, vh / DESIGN_H);
 
@@ -194,8 +181,8 @@ export class PagesM5Component implements OnInit {
 
     // centrar
     root.style.position = 'absolute';
-    root.style.left = Math.max(0, (vw - DESIGN_W * scale) / 2) + 'px';
-    root.style.top = Math.max(0, (vh - DESIGN_H * scale) / 2) + 'px';
+    root.style.left = `${marginW + Math.max(0, (vw - DESIGN_W * scale) / 2)}px`;
+    root.style.top = `${marginH + Math.max(0, (vh - DESIGN_H * scale) / 2)}px`;
   }
   
 }

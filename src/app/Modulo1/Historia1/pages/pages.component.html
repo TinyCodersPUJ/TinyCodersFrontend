@@ -12,24 +12,34 @@
 
             <!-- Página 8: solo botón "Finalizar" -->
             <ng-container *ngIf="page === 8">
-                <a class="btn-final" [routerLink]="endLink" aria-label="Finalizar">
-                    <img src="assets/img/finalizar.png" alt="Finalizar" />
-                </a>
+                <!-- Si está en modo mini (popup) -->
+                <div *ngIf="esMini; else btnFinalNormal" class="btn-final">
+                    <a class="btn-final" aria-label="Finalizar" (click)="finalizar()">
+                        <img src="assets/img/finalizar.png" alt="Finalizar" />
+                    </a>
+                </div>
+
+                <!-- Si no está en modo mini -->
+                <ng-template #btnFinalNormal>
+                    <a class="btn-final" [routerLink]="endLink" aria-label="Finalizar">
+                        <img src="assets/img/finalizar.png" alt="Finalizar" />
+                    </a>
+                </ng-template>
             </ng-container>
 
             <!-- Página 5: solo botón "Programar" -->
             <ng-container *ngIf="page === 5">
 
                 <ng-template #btnVolver>
-                    <a class="btn-scratch" href="http://localhost:8601"
-                        aria-label="Ir a Scratch" (click)="abrirScratch($event)">
+                    <a class="btn-scratch" href="http://localhost:8601" aria-label="Ir a Scratch"
+                        (click)="abrirScratch($event)">
                         <img src="assets/img/empezar.png" alt="Oprime">
                     </a>
                 </ng-template>
 
                 <div *ngIf="esMini; else btnVolver" class="btn-scratch">
                     <a class="btn-scratch" aria-label="Volver de Scratch" (click)="terminarYVolver()">
-                        <img src="assets/img/atrás.png" alt="Oprime">
+                        <img src="assets/img/atrás.png">
                     </a>
                 </div>
 

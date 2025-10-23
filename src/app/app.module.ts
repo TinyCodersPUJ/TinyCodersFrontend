@@ -14,6 +14,7 @@ import { PagesM3Component } from './Modulo3/pages-m3/pages-m3.component';
 import { PagesM4Component } from './Modulo4/pages-m4/pages-m4.component';
 import { PagesM5Component } from './Modulo5/pages-m5/pages-m5.component';
 import { HttpClientModule } from '@angular/common/http';
+import { PagesM6Component } from './Modulo6/pages-m6/pages-m6.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,6 +27,7 @@ import { HttpClientModule } from '@angular/common/http';
     PagesM3Component,
     PagesM4Component,
     PagesM5Component,
+    PagesM6Component,
   ],
   imports: [
     BrowserModule,

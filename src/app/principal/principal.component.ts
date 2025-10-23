@@ -16,7 +16,8 @@ export class PrincipalComponent implements OnInit {
     { id: 2, title: "Guardianes de la Selva", cover: "assets/img/Modulo2/M2P1.png", href: "/Modulo2/1", stars: 0 },
     { id: 3, title: "Hay alguien reaccionando", cover: "assets/img/Modulo3/M3P1.png", href: "/Modulo3/1", stars: 0 },
     { id: 4, title: "Contemos", cover: "assets/img/Modulo4/M4P1.png", href: "/Modulo4/1", stars: 0 },
-    { id: 5, title: "Repito y repita", cover: "assets/img/Modulo5/M5P1.png", href: "/Modulo5/1", stars: 0 }
+    { id: 5, title: "Repito y repita", cover: "assets/img/Modulo5/M5P1.png", href: "/Modulo5/1", stars: 0 },
+    { id: 6, title: "Crea tu mundo", cover: "assets/img/Modulo6/M6P1.png", href: "/Modulo6/1", stars: 0 }
   ];
 
   constructor() {}

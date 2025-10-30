@@ -16,28 +16,33 @@
     box-sizing: border-box
 }
 
-html,
+/* Fondo global: para asegurar que cubre toda la pantalla */
 body {
-    height: 100%;
     margin: 0;
-    font-family: "Rubik", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-    color: var(--ink);
-    background: var(--bg);
+    padding: 0;
+    width: 100%;
+    height: 100vh; /* Asegura que ocupe toda la altura de la ventana */
+    background: url("../../assets/img/base.png") center/cover no-repeat; /* Aquí también la imagen se establece de fondo */
+    background-size: cover; /* Se asegura que se cubra toda la pantalla */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+
 
 /* Fondo con ilustración */
 .sky::before {
     content: "";
-    position: absolute;
+    position: fixed;
     inset: 0;
     background: url("../../assets/img/base.png") center/cover no-repeat;
-    z-index: -2;
+    z-index: -1;
     filter: saturate(1.05);
 }
 
 /* Tarjeta */
 .card {
-    width: min(720px, 92%);
+    width: min(720px, 95%);
     background: #e5e5e5;
     border-radius: var(--radius-2xl);
     box-shadow: var(--shadow);

@@ -31,9 +31,9 @@ body {
     min-height: 100dvh;
     display: grid;
     place-items: center;
-    padding: 24px;
     position: relative;
     isolation: isolate;
+    height: 100vh;
 }
 
 .sky::after {
@@ -44,6 +44,52 @@ body {
     background: linear-gradient(180deg, rgba(255, 255, 255, .35), transparent 35% 70%, rgba(0, 0, 0, .08));
     z-index: -1;
 }
+
+
+/* Fondo global (nubes fijas atrás del todo) */
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100dvh;
+    font-family: "Rubik", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    color: var(--ink);
+
+    background: url("/assets/img/nubes_portada.png") no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* Centrado real del contenido en toda la pantalla */
+.stage {
+    min-height: 100dvh;
+    display: grid;
+    place-items: center;
+}
+
+/* Panel principal */
+.panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--page-blue);
+    border: 4px solid var(--comic-border);
+    border-radius: 12px;
+
+    /* tamaño dinámico y responsivo */
+    width: min(85vw, 1000px);
+    aspect-ratio: 16 / 12.8; /* relación base para mantener proporción */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+
+    padding: 10px; /* pequeño espacio entre borde y contenido */
+    box-sizing: border-box;
+}
+
 
 /* PopUp */
 body.mini {

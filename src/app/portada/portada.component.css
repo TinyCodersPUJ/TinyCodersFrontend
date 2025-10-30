@@ -1,25 +1,3 @@
-:root {
-    --bg: #cfeeff;
-    --panel: #e8f6ff;
-    --border: #8ad0ff;
-    --ink: #16324f;
-    --btn-green: #8de894;
-    --btn-yellow: #ffe680;
-    --btn-ink: #114b35;
-    --shadow: 0 10px 30px rgba(0, 0, 0, .10);
-    --radius-xl: 22px;
-    --radius-pill: 999px;
-    --maxw: 1080px;
-}
-
-.sky::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: url("../../assets/img/nubes_portada.png") center/cover no-repeat;
-    z-index: -2;
-    filter: saturate(1.1);
-}
 
 .wrap {
     width: 100%;

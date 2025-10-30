@@ -41,10 +41,14 @@ export class LoginComponent {
         if (response.data.user!.role === 'authenticated') {
           console.log('User logged in successfully:', response);
           this.router.navigate([`/principal`]); // Redirigir a la URL construida
+        } else {
+          this.errorMessage = 'Credenciales incorrectas. Inténtalo nuevamente.';
         }
       })
       .catch((error) => {
         console.error('Error logging in:', error);
+        this.errorMessage =
+          'No se pudo iniciar sesión. Verifica tus credenciales o tu conexión.';
       });
   }
 

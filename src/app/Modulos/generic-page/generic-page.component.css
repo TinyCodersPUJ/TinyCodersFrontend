@@ -1,72 +1,21 @@
-:root {
-    --page-blue: #ff2300;
-    /* Nuevo tono azul */
-    --ink: #0f2233;
-    --paper: #ffffff;
-    --comic-border: #0f0f0f;
-}
-
-
-html,
-main {
-    margin: 0;
-    padding: 0;
-    width: 100vw;
-    height: 100%;
-    font-family: "Rubik", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-    color: var(--ink);
-
-    /* Fondo con imagen */
-    background: url("../../../assets/img/nubes_portada.png") no-repeat center center fixed;
-    background-size: cover;
-}
-
-/* 👇 Centrado real del contenido en toda la pantalla */
-.stage {
-    min-height: 100dvh;
-    /* usa la altura del viewport real */
-    display: grid;
-    /* grid = centrado simple */
-    place-items: center;
-    /* centra vertical y horizontal */
-    padding: 0;
-    /* sin padding para que el centro sea exacto */
-}
-
-/* Panel principal */
-.panel {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    width: 950px;
-    max-width: 95%;
-    height: auto;
-    background: var(--page-blue);
-    border: 4px solid var(--comic-border);
-    /* borde SOLO aquí */
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
-}
-
 /* Contenedor de la ilustración */
 .comic {
     position: relative;
-    margin: 0 auto;
     width: 100%;
-    max-height: 700px;
-    /* un poco más largo que antes */
-    border-radius: 6px;
-    /* SIN borde */
-    overflow: hidden;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
 }
 
-/* Imagen adaptada */
+/* Imagen contenida y centrada */
 .scene {
     width: 100%;
-    height: auto;
-    object-fit: contain;
-    margin-top: -25px;
+    height: 100%;
+    object-fit: contain; /* mantiene proporciones */
+    display: block;
+    border-radius: 8px;
 }
 
 
@@ -159,7 +108,6 @@ main {
     transform: scale(1.08);
 }
 
-
 /* Botón siguiente (derecha abajo) */
 .btn-img {
     position: absolute;
@@ -178,4 +126,30 @@ main {
 
 .btn-img img:hover {
     transform: scale(1.08);
+}
+
+
+/* 🔹 Responsive: mantiene la proporción y ajuste correcto */
+@media (max-width: 768px) {
+    .panel {
+        width: 90vw;
+        aspect-ratio: 4 / 3;
+        padding: 6px;
+    }
+
+    .btn-empezar img {
+        width: clamp(80px, 22vw, 100px);
+    }
+}
+
+@media (max-width: 480px) {
+    .panel {
+        width: 95vw;
+        aspect-ratio: 1 / 1;
+        padding: 4px;
+    }
+
+    .btn-empezar img {
+        width: 80px;
+    }
 }

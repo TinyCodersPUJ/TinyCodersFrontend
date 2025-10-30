@@ -3,15 +3,14 @@
         <figure class="comic" id="mini-root">
             <img class="scene" [src]="imgSrc" alt="Escena">
 
-            <!-- Página 1: solo botón "Empezar" -->
-            <ng-container *ngIf="page === 1">
-                <a class="btn-empezar" [routerLink]="nextLink">
-                    <img src="assets/img/empezar.png" alt="Empezar" />
-                </a>
-            </ng-container>
+            <!-- Botón Empezar -->
+            <a *ngIf="showEmpezar" class="btn-empezar" [routerLink]="nextLink">
+                <img src="assets/img/empezar.png" alt="Empezar" />
+            </a>
 
-            <!-- Página 8: solo botón "Finalizar" -->
-            <ng-container *ngIf="page === 8">
+            <!-- Botón Finalizar -->
+            <a *ngIf="showFinalizar" class="btn-final" [routerLink]="endLink" aria-label="Finalizar">
+                
                 <!-- Si está en modo mini (popup) -->
                 <div *ngIf="esMini; else btnFinalNormal" class="btn-final">
                     <a class="btn-final" aria-label="Finalizar" (click)="finalizar()">
@@ -25,38 +24,33 @@
                         <img src="assets/img/finalizar.png" alt="Finalizar" />
                     </a>
                 </ng-template>
-            </ng-container>
 
-            <!-- Página 5: solo botón "Programar" -->
-            <ng-container *ngIf="page === 5">
+            </a>
 
+            <!-- Botón Scratch / Volver -->
+            <ng-container *ngIf="showScratch">
                 <ng-template #btnVolver>
-                    <a class="btn-scratch" href="http://localhost:8601" aria-label="Ir a Scratch"
+                    <a class="btn-scratch" aria-label="Ir a Scratch"
                         (click)="abrirScratch($event)">
-                        <img src="assets/img/empezar.png" alt="Oprime">
+                        <img src="assets/img/empezar.png" alt="Programar" />
                     </a>
                 </ng-template>
 
                 <div *ngIf="esMini; else btnVolver" class="btn-scratch">
                     <a class="btn-scratch" aria-label="Volver de Scratch" (click)="terminarYVolver()">
-                        <img src="assets/img/atrás.png">
+                        <img src="assets/img/atrás.png" alt="Volver" />
                     </a>
                 </div>
-
             </ng-container>
 
+            <!-- Botones Atrás / Siguiente -->
+            <a *ngIf="showAtras" class="btn-atras" [routerLink]="prevLink" aria-label="Atrás">
+                <img src="assets/img/atrás.png" alt="Atrás" />
+            </a>
 
-            <!-- Páginas 2 a 7: botón "Atrás" y "Siguiente" -->
-            <ng-container *ngIf="page > 1 && page < 8">
-                <a class="btn-atras" [routerLink]="prevLink" aria-label="Atrás">
-                    <img src="assets/img/atrás.png" alt="Atrás" />
-                </a>
-
-                <a class="btn-img" [routerLink]="nextLink" aria-label="Siguiente">
-                    <img src="assets/img/siguiente.png" alt="Siguiente" />
-                </a>
-            </ng-container>
-
+            <a *ngIf="showSiguiente" class="btn-img" [routerLink]="nextLink" aria-label="Siguiente">
+                <img src="assets/img/siguiente.png" alt="Siguiente" />
+            </a>
         </figure>
     </section>
 </main>

@@ -5,12 +5,7 @@ import { LoginComponent } from './login/login.component';
 import { PrincipalComponent } from './principal/principal.component';
 import { PortadaComponent } from './portada/portada.component';
 import { SignupComponent } from './signup/signup.component';
-import { PagesComponent } from './Modulo1/Historia1/pages/pages.component';
-import { PagesM2Component } from './Modulo2/pages-m2/pages-m2.component';
-import { PagesM3Component } from './Modulo3/pages-m3/pages-m3.component';
-import { PagesM4Component } from './Modulo4/pages-m4/pages-m4.component';
-import { PagesM5Component } from './Modulo5/pages-m5/pages-m5.component';
-import { PagesM6Component } from './Modulo6/pages-m6/pages-m6.component';
+import { GenericPageComponent } from './Modulos/generic-page/generic-page.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'portada', pathMatch: 'full' },
@@ -20,12 +15,7 @@ const routes: Routes = [
   { path: 'principal', component: PrincipalComponent },
   { path: 'portada', component: PortadaComponent },
   { path: 'signup', component: SignupComponent },
-  { path: 'Modulo1/:page', component: PagesComponent },
-  { path: 'Modulo2/:page', component: PagesM2Component },
-  { path: 'Modulo3/:page', component: PagesM3Component },
-  { path: 'Modulo4/:page', component: PagesM4Component },
-  { path: 'Modulo5/:page', component: PagesM5Component },
-  { path: 'Modulo6/:page', component: PagesM6Component },
+  { path: 'Modulo/:modId/:page', component: GenericPageComponent },
 
   { path: '**', redirectTo: '' }
 ];

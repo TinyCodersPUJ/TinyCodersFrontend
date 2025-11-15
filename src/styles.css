@@ -55,7 +55,7 @@ body {
     font-family: "Rubik", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     color: var(--ink);
 
-    background: url("/assets/img/nubes_portada.png") no-repeat center center fixed;
+    background: url("assets/img/nubes_portada.png") no-repeat center center fixed;
     background-size: cover;
     display: flex;
     justify-content: center;

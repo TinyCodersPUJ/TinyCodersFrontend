@@ -9,19 +9,23 @@
                 <p class="subtitle">Avanza paso a paso en tu misión 🚀</p>
             </div>
             <div class="stars-box">
-                ⭐ <span id="totalStars">0</span>
+                ⭐ <span id="totalStars"> {{completedModules}} </span>
             </div>
         </header>
 
         <!-- Módulos -->
         <div id="modulesList" class="modules">
             <article *ngFor="let m of modules" class="module-card">
-                <img [src]="m.cover" [alt]="m.title" class="cover" />
-                <h3 class="title">{{ m.title }}</h3>
-                <p class="stars">{{ getStarsDisplay(m.stars) }}</p>
-                <a [routerLink]="m.href" class="btn">{{ getButtonLabel(m.stars) }}</a>
+                <img [src]="m.cover" [alt]="m.name" class="cover" />
+                <h3 class="title">{{ m.name }}</h3>
+                <p class="stars">{{ getStarsDisplay(m.id) }}</p>
+                <a [routerLink]="m.href" class="btn">{{ getButtonLabel(m.id) }}</a>
             </article>
         </div>
-
+        
+        <button class="logout-btn" (click)="logout()">
+            <img src="assets/img/logout.png" alt="Cerrar sesión">
+        </button>
+        
     </section>
 </main>

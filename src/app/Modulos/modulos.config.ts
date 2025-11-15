@@ -7,6 +7,7 @@ export interface ModuloConfig {
 }
 
 export const MODULOS: Record<number, ModuloConfig> = {
+    0: { lastPage: 9, scratchPage: 0, scratchFile: '', endLink: '/principal' },
     1: { lastPage: 8, scratchPage: 5, scratchFile: 'modulo1.sb3', endLink: '/principal' },
     2: { lastPage: 4, scratchPage: 3, scratchFile: 'modulo2.sb3', endLink: '/principal' },
     3: { lastPage: 5, scratchPage: 3, scratchFile: 'modulo3.sb3', endLink: '/principal' },

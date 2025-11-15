@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { ModuleModel } from '../models/module-model';
+import { ModulosService } from '../services/modulos.service';
+import { UserModuleProgressModel } from '../models/user-module-progress-model';
+import { SupabaseService } from '../services/supabase.service';
+import { ErrorModalService } from '../services/error-modal.service';
 
 @Component({
   selector: 'app-principal',
@@ -6,31 +11,97 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./principal.component.css']
 })
 export class PrincipalComponent implements OnInit {
-  userProgress = {
-    completedModules: 1,
-    totalStars: 3
-  };
 
-  modules = [
-    { id: 1, title: "Explorador de Luz", cover: "assets/img/Modulo1/M1P1.png", href: "/Modulo/1/1", stars: 3 },
-    { id: 2, title: "Guardianes de la Selva", cover: "assets/img/Modulo2/M2P1.png", href: "/Modulo/2/1", stars: 0 },
-    { id: 3, title: "Hay alguien reaccionando", cover: "assets/img/Modulo3/M3P1.png", href: "/Modulo/3/1", stars: 0 },
-    { id: 4, title: "Contemos", cover: "assets/img/Modulo4/M4P1.png", href: "/Modulo/4/1", stars: 0 },
-    { id: 5, title: "Repito y repita", cover: "assets/img/Modulo5/M5P1.png", href: "/Modulo/5/1", stars: 0 },
-    { id: 6, title: "Crea tu mundo", cover: "assets/img/Modulo6/M6P1.png", href: "/Modulo/6/1", stars: 0 }
-  ];
+  userId: string | null = '';
 
-  constructor() {}
+  completedModules = 0;
 
-  ngOnInit(): void {
-    // Si quieres hacer algo al iniciar, lo haces aquí
+  modules: ModuleModel[] = [];
+  userProgress: UserModuleProgressModel[] = [];
+
+  constructor(
+    private modulosService: ModulosService,
+    private supabaseService: SupabaseService,
+    private errorModal: ErrorModalService
+  ) { }
+
+  async ngOnInit(): Promise<void> {
+    await this.loadUserId();
+    await this.loadModules();
   }
 
-  getStarsDisplay(stars: number): string {
-    return '⭐'.repeat(stars) + '☆'.repeat(3 - stars);
+  getStarsDisplay(modId: number): string {
+    var stars = 0;
+    for (const pro of this.userProgress) {
+      if(modId == pro.module_id){
+        stars = pro.stars;
+      }
+    }
+    return '★'.repeat(stars) + '✰'.repeat(3 - stars);//⭐'
   }
 
-  getButtonLabel(stars: number): string {
+  getButtonLabel(modId: number): string {
+    var stars = 0;
+    for (const pro of this.userProgress) {
+      if(modId == pro.module_id){
+        stars = pro.stars;
+      }
+    }
     return stars > 0 ? 'Revisar' : 'Empezar';
   }
+
+  private async loadUserId() {
+    this.userId = await this.supabaseService.getCurrentUserId();
+    console.log('Usuario autenticado:', this.userId);
+  }
+
+  // Cargar todos los módulos
+  async loadModules() {
+    try {
+      this.modules = await this.modulosService.getAllModules() || [];
+      console.log('Módulos cargados:', this.modules);  // Imprimir los módulos cargados
+      this.loadStars();
+    } catch (error) {
+      console.error('Error loading modules:', error);
+      this.errorModal.show("Error cargando los modulos.");
+    }
+  }
+
+  // Cargar estrellas por modulo
+  async loadStars() {
+    if (!this.userId) {
+      console.warn('❌ No hay usuario autenticado');
+      this.errorModal.show("❌ No hay usuario autenticado.");
+      return;
+    }
+
+    try {
+      for (const mod of this.modules) {
+        const progress = await this.modulosService.getUserModuleProgress(this.userId ?? '', mod.id);
+        const stars = progress?.stars ?? 0;
+        console.log('Strellas cargadas:', stars);  // Imprimir los módulos cargados
+        this.userProgress.push({
+          user_id: this.userId!,
+          module_id: mod.id,
+          stars: stars
+        });
+
+        if(stars > 1){
+          this.completedModules++;
+        }
+      }
+    } catch (error) {
+      console.error('Error loading stars:', error);
+    }
+  }
+
+  async logout() {
+    const ok = await this.supabaseService.signOut();
+    
+    if (ok) {
+      // Redirige al login
+      window.location.href = '/login';
+    }
+  }
+
 }

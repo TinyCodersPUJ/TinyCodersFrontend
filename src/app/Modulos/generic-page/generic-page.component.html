@@ -9,22 +9,8 @@
             </a>
 
             <!-- Botón Finalizar -->
-            <a *ngIf="showFinalizar" class="btn-final" [routerLink]="endLink" aria-label="Finalizar">
-                
-                <!-- Si está en modo mini (popup) -->
-                <div *ngIf="esMini; else btnFinalNormal" class="btn-final">
-                    <a class="btn-final" aria-label="Finalizar" (click)="finalizar()">
-                        <img src="assets/img/finalizar.png" alt="Finalizar" />
-                    </a>
-                </div>
-
-                <!-- Si no está en modo mini -->
-                <ng-template #btnFinalNormal>
-                    <a class="btn-final" [routerLink]="endLink" aria-label="Finalizar">
-                        <img src="assets/img/finalizar.png" alt="Finalizar" />
-                    </a>
-                </ng-template>
-
+            <a *ngIf="showFinalizar" class="btn-final" [routerLink]="endLink" aria-label="Finalizar" (click)="finalizar()">
+                <img src="assets/img/finalizar.png" alt="Finalizar" />
             </a>
 
             <!-- Botón Scratch / Volver -->
@@ -48,7 +34,7 @@
                 <img src="assets/img/atrás.png" alt="Atrás" />
             </a>
 
-            <a *ngIf="showSiguiente" class="btn-img" [routerLink]="nextLink" aria-label="Siguiente">
+            <a *ngIf="showSiguiente" class="btn-sig" [routerLink]="nextLink" aria-label="Siguiente">
                 <img src="assets/img/siguiente.png" alt="Siguiente" />
             </a>
         </figure>

@@ -1,6 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { MODULOS } from '../modulos.config';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ModulosService } from 'src/app/services/modulos.service';
+import { ModuleModel } from 'src/app/models/module-model';
+import { ErrorModalService } from 'src/app/services/error-modal.service';
+
 @Component({
   selector: 'app-generic-page',
   templateUrl: './generic-page.component.html',
@@ -27,7 +30,11 @@ export class GenericPageComponent implements OnInit, OnDestroy {
   esMini = false;
   private resizeHandler = () => this.scaleMiniToFit();
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute,
+    private modulosService: ModulosService,
+    private errorModal: ErrorModalService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
     // Leer parámetros dinámicos de la URL
@@ -38,14 +45,31 @@ export class GenericPageComponent implements OnInit, OnDestroy {
       this.updateContent();
     });
 
+    // Popup scratch
     const urlParams = new URLSearchParams(window.location.search);
     this.esMini = urlParams.get('mini') === '1';
 
     if (this.esMini) {
+
       document.body.classList.add('mini');
       setTimeout(() => this.scaleMiniToFit(), 0);
       window.addEventListener('resize', this.resizeHandler);
+
     }
+
+    const handler = () => {
+      const returnTo = localStorage.getItem('returnTo') || '/';
+      try {
+        if (window.opener && !window.opener.closed) {
+          window.opener.location.href = returnTo; // vuelve a la app
+          window.opener.focus();
+        }
+      } catch { }
+    };
+
+    // se dispara si el usuario cierra con la X 
+    window.addEventListener('beforeunload', handler);
+    window.addEventListener('pagehide', handler);
   }
 
   ngOnDestroy() {
@@ -53,18 +77,18 @@ export class GenericPageComponent implements OnInit, OnDestroy {
   }
 
   /** Carga configuración del módulo actual */
-  private loadConfig() {
-    const config = MODULOS[this.modId] || MODULOS[1];
-    this.lastPage = config.lastPage;
-    this.scratchPage = config.scratchPage;
-    this.scratchURL = `https://hardware-for-education.github.io/Scratch_For_Education?modulo=${config.scratchFile}`;
-    this.endLink = config.endLink;
+  async loadConfig() {
+    const config = await this.modulosService.getModuleConfig(this.modId);
+    this.lastPage = config?.lastPage || 0;
+    this.scratchPage = config?.scratchPage || 0;
+    this.scratchURL = `https://hardware-for-education.github.io/Scratch_For_Education?modulo=${config?.scratchFile}`;
+    console.log("URL: ", this.scratchURL);
+    this.endLink = config?.endLink || '/principal';
   }
 
   /** Actualiza las imágenes y los botones según la página */
   private updateContent() {
     this.imgSrc = `assets/img/Modulo${this.modId}/M${this.modId}P${this.page}.png`;
-    console.log("Imagen a cargar ", this.imgSrc);
 
     const prev = Math.max(1, this.page - 1);
     const next = Math.min(this.lastPage, this.page + 1);
@@ -81,47 +105,43 @@ export class GenericPageComponent implements OnInit, OnDestroy {
 
   /** Abrir Scratch */
   abrirScratch(ev: MouseEvent) {
+    if (!this.scratchURL) {
+      this.errorModal.show("Error: El módulo no tiene Scratch configurado.");
+      return;
+    }
+
     ev.preventDefault();
 
-    // 1. Calcula tamaño dinámico basado en la pantalla actual
-    const W = Math.round(window.innerWidth * 0.45);  // 45% del ancho de la pantalla
-    const H = Math.round(window.innerHeight * 0.50); // 50% del alto de la pantalla
+    const width = window.screen.availWidth;
+    const height = window.screen.availHeight;
 
-    const scrLeft = window.screenX ?? window.screenLeft ?? 0;
-    const scrTop = window.screenY ?? window.screenTop ?? 0;
-    const outerW = window.outerWidth || window.innerWidth;
-    const outerH = window.outerHeight || window.innerHeight;
-    const left = Math.max(0, scrLeft + outerW - W);
-    const top = Math.max(0, scrTop + outerH - H);
+    // Abre la ventana de Scratch desde el popup mini
+    const scratchWindow = window.open(this.scratchURL, 'scratchWin',
+      `width=${width},height=${height},left=0,top=0,resizable=yes,scrollbars=yes`);
 
-    const features = [
-      `width=${W}`, `height=${H}`,
-      `left=${left}`, `top=${top}`,
-      'resizable=yes', 'scrollbars=yes', 'menubar=no',
-      'toolbar=no', 'location=no', 'status=no'
-    ].join(',');
+    // Monitorea si Scratch se cierra
+    const checkScratchClosed = setInterval(() => {
+      if (scratchWindow && scratchWindow.closed) {
+        clearInterval(checkScratchClosed);
+        try {
+          if (window.opener && !window.opener.closed) {
+            window.opener.location.reload(); // recarga la principal
+            window.close(); // cierra el popup
+          } else {
+            this.router.navigateByUrl(this.nextLink);
+            //window.location.href = this.nextLink; //'/principal'
+          }
+        } catch {
+          window.close();
+        }
+      }
+    }, 1000);
 
-    const miniUrl = this.construirMiniUrl();
-    const popup = window.open(miniUrl, 'ventanaGuia', features);
-
-    try { localStorage.setItem('returnTo', window.location.href); } catch { }
-
-    if (popup) {
-      try { popup.moveTo(left, top); popup.resizeTo(W, H); } catch { }
-      setTimeout(() => {
-        try { popup.moveTo(left, top); popup.resizeTo(W, H); } catch { }
-      }, 50);
-      window.location.assign(this.scratchURL);
-    } else {
+    if (!scratchWindow) {
       window.open(this.scratchURL, '_blank');
       alert('Activa las ventanas emergentes para ver la ventana flotante.');
     }
-  }
 
-  private construirMiniUrl(): string {
-    const url = new URL(window.location.href);
-    url.searchParams.set('mini', '1');
-    return url.toString();
   }
 
   terminarYVolver() {
@@ -139,25 +159,31 @@ export class GenericPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  finalizar() {
-    // Si endLink viene como '/principal', esto lo deja absoluto
-    const baseUrl = window.location.origin;
-    const destino = `${baseUrl}${this.endLink}`;
+  async finalizar() {
+    if (this.esMini) {
+      // Si endLink viene como '/principal', esto lo deja absoluto
+      const baseUrl = window.location.origin;
+      const destino = `${baseUrl}${this.endLink}`;
 
-    try {
-      if (window.opener && !window.opener.closed) {
-        // Redirige SIEMPRE la ventana principal al link de destino
-        window.opener.location.href = destino;
-        window.opener.focus();
-        window.close(); // Cierra el popup
-      } else {
-        // Si no hay ventana principal, redirige aquí mismo
+      try {
+        if (window.opener && !window.opener.closed) {
+          // Redirige SIEMPRE la ventana principal al link de destino
+          window.opener.location.href = destino;
+          window.opener.focus();
+          window.close(); // Cierra el popup
+        } else {
+          // Si no hay ventana principal, redirige aquí mismo
+          window.location.href = destino;
+        }
+      } catch (err) {
+        console.error('Error al cerrar popup o redirigir:', err);
+        this.errorModal.show("Error al cerrar popup o redirigir");
         window.location.href = destino;
       }
-    } catch (err) {
-      console.error('Error al cerrar popup o redirigir:', err);
-      window.location.href = destino;
     }
+
+    // Actualizar progreso
+    await this.modulosService.updateUserModuleProgress(this.modId, 3);
   }
 
   /** Ajuste para modo mini */

@@ -10,6 +10,7 @@ import { PortadaComponent } from './portada/portada.component';
 import { SignupComponent } from './signup/signup.component';
 import { HttpClientModule } from '@angular/common/http';
 import { GenericPageComponent } from './Modulos/generic-page/generic-page.component';
+import { ErrorModalComponent } from './error-modal/error-modal.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -17,6 +18,7 @@ import { GenericPageComponent } from './Modulos/generic-page/generic-page.compon
     PrincipalComponent,
     PortadaComponent,
     GenericPageComponent,
+    ErrorModalComponent,
   ],
   imports: [
     BrowserModule,

@@ -55,7 +55,7 @@
 }
 
 .btn-final img {
-    width: clamp(100px, 18vw, 150px);
+    width: clamp(120px, 18vw, 150px);
     height: auto;
     cursor: pointer;
     transition: transform .2s ease;
@@ -109,7 +109,7 @@
 }
 
 /* Botón siguiente (derecha abajo) */
-.btn-img {
+.btn-sig {
     position: absolute;
     right: 50px;
     bottom: -20px;
@@ -117,14 +117,14 @@
     display: inline-block;
 }
 
-.btn-img img {
-    width: clamp(100px, 18vw, 150px);
+.btn-sig img {
+    width: clamp(120px, 18vw, 150px);
     height: auto;
     cursor: pointer;
     transition: transform .2s ease;
 }
 
-.btn-img img:hover {
+.btn-sig img:hover {
     transform: scale(1.08);
 }
 

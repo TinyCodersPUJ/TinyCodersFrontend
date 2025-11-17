@@ -16,6 +16,7 @@ const routes: Routes = [
   { path: 'portada', component: PortadaComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'Modulo/:modId/:page', component: GenericPageComponent },
+  { path: 'Guia/:modId/:page', component: GenericPageComponent },
 
   { path: '**', redirectTo: '' }
 ];

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { ErrorModalService } from '../services/error-modal.service';
 
 @Component({
@@ -7,19 +8,24 @@ import { ErrorModalService } from '../services/error-modal.service';
   styleUrls: ['./error-modal.component.css']
 })
 export class ErrorModalComponent {
-  
-  message: string | null = null;
 
-  constructor(private errorService: ErrorModalService) {
-    // Escuchar cambios de mensaje
-    this.errorService.message$.subscribe(msg => {
-      this.message = msg;
-    });
+  message: string | null = null;
+  redirectTo: string | null = null;
+
+  constructor(
+    private errorService: ErrorModalService,
+    private router: Router
+  ) {
+    this.errorService.message$.subscribe(msg => this.message = msg);
+    this.errorService.redirect$.subscribe(route => this.redirectTo = route);
   }
 
   close() {
     this.errorService.hide();
+
+    // Si hay una redirección configurada → navegar
+    if (this.redirectTo) {
+      this.router.navigate([this.redirectTo]);
+    }
   }
-
-
 }

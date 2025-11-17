@@ -16,7 +16,9 @@ export class SupabaseService {
 
   //Register User
   signUp(email: string, password: string) {
-    return this.supabaseClient.auth.signUp({ email, password });
+    return this.supabaseClient.auth.signUp({ email, password, options: {
+      emailRedirectTo: 'https://tinycoderspuj.github.io/TinyCodersFrontend/login'
+    } });
   }
 
   //Login User
@@ -52,7 +54,9 @@ export class SupabaseService {
   async getAllModules() {
     const { data, error } = await this.supabaseClient
       .from('modules')  // Consulta a la tabla 'modules'
-      .select('id, name, cover, href, lastPage, scratchPage, scratchFile, endLink');
+      .select('id, name, cover, href, lastPage, scratchPage, scratchFile, endLink')
+      .lt('id', 100)
+      .order('id', { ascending: true });
 
     if (error) {
       console.error('Error fetching all modules:', error);

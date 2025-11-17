@@ -4,6 +4,7 @@ import { ModulosService } from '../services/modulos.service';
 import { UserModuleProgressModel } from '../models/user-module-progress-model';
 import { SupabaseService } from '../services/supabase.service';
 import { ErrorModalService } from '../services/error-modal.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-principal',
@@ -22,7 +23,8 @@ export class PrincipalComponent implements OnInit {
   constructor(
     private modulosService: ModulosService,
     private supabaseService: SupabaseService,
-    private errorModal: ErrorModalService
+    private errorModal: ErrorModalService,
+    private router: Router
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -71,7 +73,7 @@ export class PrincipalComponent implements OnInit {
   async loadStars() {
     if (!this.userId) {
       console.warn('❌ No hay usuario autenticado');
-      this.errorModal.show("❌ No hay usuario autenticado.");
+      this.errorModal.show("❌ No hay usuario autenticado, no se cargarán datos", '/login');
       return;
     }
 
@@ -100,7 +102,9 @@ export class PrincipalComponent implements OnInit {
     
     if (ok) {
       // Redirige al login
-      window.location.href = '/login';
+      this.router.navigateByUrl("/login");
+    } else {
+      this.errorModal.show("❌ Error cerrando sesión.");
     }
   }
 
